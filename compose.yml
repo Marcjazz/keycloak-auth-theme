@@ -13,8 +13,8 @@ services:
       KC_REALM_NAME: ${KC_REALM_NAME}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_DB: ${KC_DB}
-      KC_DB_URL: jdbc:postgresql://postgres:5432/${KC_DB}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://127.0.0.1:5432/keycloak
       KC_DB_USERNAME: ${KC_DB_USERNAME}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
     ports:
