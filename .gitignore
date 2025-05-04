@@ -15,10 +15,6 @@ build/
 .DS_Store
 Thumbs.db
 
-# Ignore package-lock.json or yarn.lock if you prefer to regenerate them
-package-lock.json
-yarn.lock
-
 # Ignore TypeScript build artifacts
 *.tsbuildinfo
 
