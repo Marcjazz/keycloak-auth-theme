@@ -1,15 +1,15 @@
 {
-  "id": "ln-foot-01",
-  "realm": "ln-foot-01",
-  "displayName": "LNF 01",
-  "displayNameHtml": "<b>LNF</b> 01",
+  "id": "custom-01",
+  "realm": "custom-01",
+  "displayName": "My Custom Theme",
+  "displayNameHtml": "<b>My Custom Theme</b> 01",
   "registrationAllowed": false,
   "registrationEmailAsUsername": true,
   "rememberMe": false,
   "loginWithEmailAllowed": true,
   "resetPasswordAllowed": false,
   "enabled": true,
-  "loginTheme": "ln-foot-01",
+  "loginTheme": "custom-01",
   "roles": {
     "realm": [
       {
@@ -44,8 +44,8 @@
     {
       "email": "${KEYCLOAK_ADMIN}@hublots.co",
       "username": "${KEYCLOAK_ADMIN}",
-      "firstName": "LNF",
-      "lastName": "Admin",
+      "firstName": "Marco",
+      "lastName": "Kuidja",
       "enabled": true,
       "emailVerified": true,
       "credentials": [
@@ -81,7 +81,7 @@
   ],
   "clients": [
     {
-      "clientId": "ln-foot-01",
+      "clientId": "custom-01",
       "enabled": true,
       "publicClient": true,
       "redirectUris": [
