@@ -21,4 +21,4 @@ services:
       - ${KC_PORT}:8080
     volumes:
       - ./.docker/keycloak-config/:/opt/keycloak/data/import/:ro
-      - ./themes/:/opt/keycloak/themes/lnfoot-auth-theme:ro
+      - ./themes/modern-theme:/opt/keycloak/themes/modern-theme:ro
