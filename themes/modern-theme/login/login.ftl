@@ -1,57 +1,11 @@
-<!DOCTYPE html>
-<#ftl encoding='UTF-8'>
-<#import "template.ftl" as layout> <#-- Standard Keycloak import -->
-<html lang="${locale.currentLanguage}">
+<#ftl encoding='UTF-8'> <#-- THIS MUST BE LINE 1 -->
+<#import "template.ftl" as layout>
 
-<head>
-  <meta charset="UTF-8" />
-  <title><#if realm.displayName??>${kcSanitize(realm.displayName)?no_esc}<#else>Keycloak</#if> - ${kcSanitize(msg("loginTitle"))?no_esc}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow"> <#-- Good practice for login pages -->
-  <link href="${url.resourcesPath}/css/style.css" rel="stylesheet" />
-  <#if properties.meta?has_content>
-    <#list properties.meta?split(' ') as meta>
-      <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
-    </#list>
-  </#if>
-</head>
-
-<body class="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
-  <div class="w-full max-w-md p-6 sm:p-8 space-y-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl">
-    
-    <header class="text-center space-y-2">
-      <#-- Allow for realm logo or fallback to a generic one -->
-      <#if properties.logoUrl?has_content>
-        <img src="${properties.logoUrl}" alt="${kcSanitize(realm.displayName)?no_esc} Logo" class="h-12 mx-auto">
-      <#else>
-        <#-- Placeholder for a generic logo if you have one, or remove -->
-        <!-- <img src="${url.resourcesPath}/img/logo.png" alt="Logo" class="h-12 mx-auto"> -->
-      </#if>
-      <#if realm.displayNameHtml?? && realm.displayNameHtml?has_content>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-          ${realm.displayNameHtml?no_esc}
-        </h1>
-      <#else>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-          ${kcSanitize(msg("loginTitle"))?no_esc}
-        </h1>
-      </#if>
-    </header>
-    
-    <#-- More specific message styling based on type -->
-    <#if message?has_content>
-      <div 
-        class="p-3 rounded-md text-sm border
-          <#if message.type = 'success'>bg-green-50 border-green-300 text-green-700 dark:bg-green-900 dark:border-green-700 dark:text-green-300</#if>
-          <#if message.type = 'warning'>bg-yellow-50 border-yellow-300 text-yellow-700 dark:bg-yellow-900 dark:border-yellow-700 dark:text-yellow-300</#if>
-          <#if message.type = 'error'>bg-red-50 border-red-300 text-red-700 dark:bg-red-900 dark:border-red-700 dark:text-red-300</#if>
-          <#if message.type = 'info'>bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300</#if>"
-        aria-live="polite"
-        role="alert">
-        <#-- Using kcSanitize on message.summary as it can contain HTML -->
-        <p>${kcSanitize(message.summary)?no_esc}</p>
-      </div>
-    </#if>
+<@layout.mainLayout 
+    title=kcSanitize(msg("loginTitle")) 
+    header=kcSanitize(realm.displayNameHtml!(msg("loginTitle"))?no_esc)
+>
+    <#-- Main login form -->
     <form id="kc-login-form" action="${url.loginAction}" method="post" class="space-y-5">
       <div>
         <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">${kcSanitize(msg("usernameOrEmail"))?no_esc}</label>
@@ -65,7 +19,7 @@
           autofocus
           aria-required="true"
           aria-invalid="<#if message?has_content && message.type = 'error'>true<#else>false</#if>"
-          <#if message?has_content && message.type = 'error'>aria-describedby="error-message-area"</#if> <#-- Assuming error message div has id="error-message-area" -->
+          <#if message?has_content && message.type = 'error'>aria-describedby="kc-feedback-message"</#if>
            />
       </div>
       
@@ -83,7 +37,7 @@
           class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-colors"
           aria-required="true"
           aria-invalid="<#if message?has_content && message.type = 'error'>true<#else>false</#if>"
-          <#if message?has_content && message.type = 'error'>aria-describedby="error-message-area"</#if>
+          <#if message?has_content && message.type = 'error'>aria-describedby="kc-feedback-message"</#if>
           />
       </div>
 
@@ -122,7 +76,6 @@
         </div>
 
         <div id="kc-social-providers" class="space-y-3">
-          <#-- <h3 class="text-sm font-medium text-center text-gray-700 dark:text-gray-300">${kcSanitize(msg("identity-provider-login-label"))?no_esc}</h3> -->
           <ul class="space-y-2">
             <#list social.providers as p>
               <li>
@@ -140,10 +93,8 @@
 
                 <a id="social-${p.alias}" href="${p.loginUrl}" class="${provider_classes}">
                   <#if p.iconClasses?has_content>
-                    <#-- Attempt to render Keycloak's provided icon classes -->
-                    <#-- For more specific brand icons, you might need to map p.alias to your own SVG icons or font characters -->
                     <i class="${properties.kcLogoClass!} ${p.iconClasses!} <#if p.iconHtmlClass?has_content>${p.iconHtmlClass!}</#if> text-lg" aria-hidden="true"></i>
-                    <span class="ml-2.5 text-sm font-medium">${p.displayName}</span> <#-- Text color will be inherited or set by hover state per provider_classes -->
+                    <span class="ml-2.5 text-sm font-medium">${p.displayName}</span>
                   <#else>
                     <span class="text-sm font-medium">${p.displayName}</span>
                   </#if>
@@ -162,8 +113,4 @@
       </#if>
     </div>
     </#if>
-
-  </div>
-</body>
-
-</html>
+</@layout.mainLayout>

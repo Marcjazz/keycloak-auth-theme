@@ -3,13 +3,22 @@
   "realm": "custom-01",
   "displayName": "My Custom Theme",
   "displayNameHtml": "<b>My Custom Theme</b> 01",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
   "registrationEmailAsUsername": true,
   "rememberMe": false,
   "loginWithEmailAllowed": true,
-  "resetPasswordAllowed": false,
+  "resetPasswordAllowed": true,
   "enabled": true,
-  "loginTheme": "custom-01",
+  "loginTheme": "modern-theme",
+  "accountTheme": "modern-theme",
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "en",
+    "de",
+    "fr",
+    "es"
+  ],
+  "defaultLocale": "en",
   "roles": {
     "realm": [
       {

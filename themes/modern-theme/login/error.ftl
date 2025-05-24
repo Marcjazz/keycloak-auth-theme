@@ -1,65 +1,49 @@
-<!DOCTYPE html>
-<#ftl encoding='UTF-8'>
-<#import "template.ftl" as layout> <#-- Standard Keycloak import -->
-<html lang="${locale.currentLanguage}">
+<#ftl encoding='UTF-8'> <#-- THIS MUST BE LINE 1 -->
+<#import "template.ftl" as layout>
 
-<head>
-    <meta charset="UTF-8" />
-    <title><#if realm.displayName??>${kcSanitize(realm.displayName)?no_esc}<#else>Keycloak</#if> - ${kcSanitize(msg("errorTitle"))?no_esc}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow">
-    <link href="${url.resourcesPath}/css/style.css" rel="stylesheet" />
-    <#if properties.meta?has_content>
-        <#list properties.meta?split(' ') as meta>
-            <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
-        </#list>
+<@layout.mainLayout 
+    title=kcSanitize(msg("errorTitle")) 
+    header=(messageHeader!"") <#-- Pass messageHeader or empty string -->
+    bodyClass="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4 text-center" 
+>
+    <#-- Override the header text provided by template.ftl if messageHeader is not desired, 
+         or ensure template.ftl's header macro handles it. 
+         For error.ftl, the title is often more prominent in the header.
+         The provided template.ftl uses <#nested 'header'>, so we can pass it.
+         Let's ensure the header text is the error title.
+    -->
+    <#assign pageHeader = kcSanitize(messageHeader!msg("errorTitle"))?no_esc> <#-- Default to errorTitle if messageHeader is not set -->
+    <#-- The template.ftl already has <#nested 'header'>, so this will be used there.
+         However, the template.ftl's header style is generic. For error.ftl, we want red text.
+         The worker's previous error.ftl had specific red styling for the h1.
+         We'll rely on the message display for error styling for now, or adjust template.ftl later if needed for header variants.
+         The template.ftl header macro will use the 'header' parameter passed here.
+    -->
+    
+    <#-- Error message display (already part of template.ftl, but error.ftl might have specific needs) -->
+    <#-- The template.ftl handles global messages. If error.ftl needs additional specific formatting, 
+         it can be added here. The existing template.ftl message block should cover it.
+         If message.summary is empty, provide a fallback.
+    -->
+    <#if !(message?has_content && message.summary?has_content)>
+         <div 
+          id="kc-error-message-fallback"
+          class="p-3 rounded-md text-sm border bg-red-50 border-red-300 text-red-700 dark:bg-red-900 dark:border-red-700 dark:text-red-300"
+          role="alert" 
+          aria-live="assertive">
+            <p>${kcSanitize(msg("unknownError"))?no_esc}</p>
+        </div>
     </#if>
-</head>
 
-<body class="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
-    <div class="w-full max-w-md p-6 sm:p-8 space-y-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl text-center">
-
-        <header class="space-y-2"> <#-- Removed text-center from header as div is already text-center -->
-            <#if properties.logoUrl?has_content>
-                <img src="${properties.logoUrl}" alt="${kcSanitize(realm.displayName)?no_esc} Logo" class="h-12 mx-auto" loading="lazy">
-            <#else>
-                <#-- <img src="${url.resourcesPath}/img/logo.png" alt="Logo" class="h-12 mx-auto" loading="lazy"> -->
-            </#if>
-            <h1 class="text-2xl sm:text-3xl font-bold text-red-600 dark:text-red-500"> <#-- Error title specifically in red -->
-                ${kcSanitize(messageHeader!msg("errorTitle"))?no_esc} <#-- Use messageHeader if available, fallback to errorTitle -->
-            </h1>
-        </header>
-
-        <#if message?has_content && message.summary?has_content>
-            <div 
-              id="kc-error-message"
-              class="p-3 rounded-md text-sm border bg-red-50 border-red-300 text-red-700 dark:bg-red-900 dark:border-red-700 dark:text-red-300"
-              role="alert" 
-              aria-live="assertive"> <#-- Assertive for important errors -->
-                <p>${kcSanitize(message.summary)?no_esc}</p>
-            </div>
-        <#else> <#-- Fallback if message.summary is not available, but still want to indicate an error -->
-             <div 
-              id="kc-error-message"
-              class="p-3 rounded-md text-sm border bg-red-50 border-red-300 text-red-700 dark:bg-red-900 dark:border-red-700 dark:text-red-300"
-              role="alert" 
-              aria-live="assertive">
-                <p>${kcSanitize(msg("unknownError"))?no_esc}</p>
-            </div>
-        </#if>
-        
-        <#if client?? && client.baseUrl?has_content>
-            <a href="${client.baseUrl}" class="inline-block w-full py-2.5 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-offset-gray-800 transition-colors duration-150 ease-in-out">
-                ${kcSanitize(msg("backToApplication"))?no_esc}
-            </a>
-        <#elseif skipLink??> <#-- Fallback to skipLink if client.baseUrl is not available -->
-             <#-- This case might be rare for error.ftl, but good to have a generic fallback if needed -->
-        <#else> <#-- Fallback to loginUrl if no other link is present -->
-            <a href="${url.loginUrl}" class="inline-block w-full py-2.5 px-4 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800 transition-colors duration-150 ease-in-out">
-                ${kcSanitize(msg("backToLogin"))?no_esc}
-            </a>
-        </#if>
-    </div>
-</body>
-
-</html>
+    <#if client?? && client.baseUrl?has_content>
+        <a href="${client.baseUrl}" class="inline-block w-full py-2.5 px-4 mt-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-offset-gray-800 transition-colors duration-150 ease-in-out">
+            ${kcSanitize(msg("backToApplication"))?no_esc}
+        </a>
+    <#elseif skipLink??>
+        <#-- No specific link for skipLink on error page usually -->
+    <#else>
+        <a href="${url.loginUrl}" class="inline-block w-full py-2.5 px-4 mt-4 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800 transition-colors duration-150 ease-in-out">
+            ${kcSanitize(msg("backToLogin"))?no_esc}
+        </a>
+    </#if>
+</@layout.mainLayout>

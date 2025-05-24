@@ -8,6 +8,21 @@
     <meta name="robots" content="noindex, nofollow">
     <title><#if realm.displayName??>${kcSanitize(realm.displayName)?no_esc}<#else>Keycloak</#if> - ${kcSanitize(title!msg("accountManagementTitle"))?no_esc}</title>
     <link href="${url.resourcesPath}/css/style.css" rel="stylesheet" />
+
+    <#-- Favicon Configuration -->
+    <#if properties.faviconUrl?has_content>
+        <link rel="icon" href="${properties.faviconUrl}">
+        <#-- Optional: Add other link types for different favicon sizes/formats if needed,
+             e.g., <link rel="apple-touch-icon" href="${properties.appleTouchIconUrl}"> etc.
+             For now, a single rel="icon" is sufficient. -->
+    <#else>
+        <#-- No specific theme favicon configured, browser will look for /favicon.ico at root,
+             or Keycloak might provide its own default if any.
+             Alternatively, a default bundled favicon could be linked here:
+             <link rel="icon" href="${url.resourcesPath}/img/favicon.ico">
+             For now, let's not assume a bundled default favicon exists yet. -->
+    </#if>
+
     <#if properties.meta?has_content>
         <#list properties.meta?split(' ') as meta>
             <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
