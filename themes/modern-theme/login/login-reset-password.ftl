@@ -2,8 +2,8 @@
 <#import "template.ftl" as layout>
 
 <@layout.mainLayout 
-    title=kcSanitize(msg("emailForgotTitle")) 
-    header=kcSanitize(msg("emailForgotTitle"))
+    title=msg("emailForgotTitle") <#-- kcSanitize removed -->
+    header=msg("emailForgotTitle") <#-- kcSanitize removed -->
 >
     <p class="text-sm text-center text-gray-600 dark:text-gray-400">
       ${kcSanitize(msg("emailInstruction"))?no_esc}

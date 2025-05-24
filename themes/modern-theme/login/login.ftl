@@ -2,8 +2,8 @@
 <#import "template.ftl" as layout>
 
 <@layout.mainLayout 
-    title=kcSanitize(msg("loginTitle")) 
-    header=kcSanitize(realm.displayNameHtml!(msg("loginTitle"))?no_esc)
+    title=msg("loginTitle") <#-- kcSanitize removed -->
+    header=(realm.displayNameHtml!(msg("loginTitle"))?no_esc) <#-- kcSanitize removed, ?no_esc kept for HTML var -->
 >
     <#-- Main login form -->
     <form id="kc-login-form" action="${url.loginAction}" method="post" class="space-y-5">

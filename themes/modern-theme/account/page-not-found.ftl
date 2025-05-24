@@ -1,6 +1,7 @@
-<#include "template.ftl" encoding="UTF-8">
+<#ftl encoding='UTF-8'> <#-- THIS MUST BE LINE 1 -->
+<#import "template.ftl" as layout>
 
-<@layout.mainLayout active='account' title=kcSanitize(msg("pageNotFoundTitle"))> <#-- Using 'account' as active, or it can be omitted -->
+<@layout.mainLayout active='account' title=msg("pageNotFoundTitle")> <#-- kcSanitize removed from title -->
 
     <div class="text-center py-12">
         <#-- Optional: SVG Icon for "Not Found" -->

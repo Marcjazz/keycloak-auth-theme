@@ -9,8 +9,8 @@
 
 
 <@layout.mainLayout 
-    title=kcSanitize(msg("registerTitle")) 
-    header=registrationHeader 
+    title=msg("registerTitle") <#-- kcSanitize removed -->
+    header=registrationHeader <#-- registrationHeader is already sanitized before this call -->
 >
     <#-- Registration Form -->
     <form id="kc-register-form" action="${url.registrationAction}" method="post" class="space-y-5">
