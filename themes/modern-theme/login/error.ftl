@@ -2,8 +2,8 @@
 <#import "template.ftl" as layout>
 
 <@layout.mainLayout 
-    title=kcSanitize(msg("errorTitle")) 
-    header=(messageHeader!"") <#-- Pass messageHeader or empty string -->
+    title=msg("errorTitle") <#-- Removed kcSanitize -->
+    header=(messageHeader!"") <#-- Pass messageHeader or empty string, template sanitizes -->
     bodyClass="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4 text-center" 
 >
     <#-- Override the header text provided by template.ftl if messageHeader is not desired, 

@@ -2,8 +2,8 @@
 <#import "template.ftl" as layout>
 
 <@layout.mainLayout 
-    title=kcSanitize(msg("loginTitle")) 
-    header=kcSanitize(realm.displayNameHtml!(msg("loginTitle"))?no_esc)
+    title=msg("loginTitle") <#-- kcSanitize removed -->
+    header=(realm.displayNameHtml!(msg("loginTitle"))?no_esc) <#-- kcSanitize removed, ?no_esc kept for HTML var -->
 >
     <#-- Main login form -->
     <form id="kc-login-form" action="${url.loginAction}" method="post" class="space-y-5">
@@ -65,7 +65,7 @@
     <#-- Separator and Social Login / Registration Links -->
     <#if realm.registrationAllowed || (social.providers?? && social.providers?size > 0)>
     <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 space-y-4">
-      <#if social.providers?? && social.providers?size > 0>
+      <#if social.providers?? && (social.providers?size > 0)>
         <div class="relative <#if realm.registrationAllowed>mb-4</#if>">
           <div class="absolute inset-0 flex items-center">
             <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>

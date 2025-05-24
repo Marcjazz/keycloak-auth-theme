@@ -1,6 +1,7 @@
-<#include "template.ftl" encoding="UTF-8">
+<#ftl encoding='UTF-8'> <#-- THIS MUST BE LINE 1 -->
+<#import "template.ftl" as layout>
 
-<@layout.mainLayout active='totp' title=kcSanitize(msg("authenticatorApplication"))>
+<@layout.mainLayout active='totp' title=msg("authenticatorApplication")> <#-- kcSanitize removed from title -->
 
     <div class="space-y-6">
         <header class="pb-4 border-b border-gray-200 dark:border-gray-700">

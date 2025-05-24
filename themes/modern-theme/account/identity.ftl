@@ -1,6 +1,7 @@
-<#include "template.ftl" encoding="UTF-8">
+<#ftl encoding='UTF-8'> <#-- THIS MUST BE LINE 1 -->
+<#import "template.ftl" as layout>
 
-<@layout.mainLayout active='identity' title=kcSanitize(msg("federatedIdentityPageTitle"))>
+<@layout.mainLayout active='identity' title=msg("federatedIdentityPageTitle")> <#-- kcSanitize removed from title -->
 
     <div class="space-y-8">
         <header class="pb-4 border-b border-gray-200 dark:border-gray-700">

@@ -2,8 +2,8 @@
 <#import "template.ftl" as layout>
 
 <@layout.mainLayout 
-    title=kcSanitize(msg("updatePasswordTitle")) 
-    header=kcSanitize(msg("updatePasswordTitle"))
+    title=msg("updatePasswordTitle") <#-- kcSanitize removed -->
+    header=msg("updatePasswordTitle") <#-- kcSanitize removed -->
 >
     <#-- Display username if available -->
     <#if user.username?? || auth.attemptedUsername??>
