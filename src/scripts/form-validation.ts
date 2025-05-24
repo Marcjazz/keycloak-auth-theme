@@ -54,7 +54,7 @@ function handleFormSubmit(event: Event) {
                 }
             }, 5000);
         }
-        if (submitButton && submitButton.dataset.originalHtml) {
+        if (submitButton?.dataset?.originalHtml) { // Applied optional chaining here
             submitButton.innerHTML = submitButton.dataset.originalHtml;
             submitButton.disabled = false;
         }

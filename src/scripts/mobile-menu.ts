@@ -13,13 +13,18 @@ export function initMobileMenu(): void {
         
         // Optional: Close mobile menu if clicking outside of it (on the overlay)
         // The overlay is the first direct child of #mobile-menu in the account template.
-        if (mobileMenu.firstElementChild && mobileMenu.firstElementChild.classList.contains('fixed', 'inset-0', 'bg-black')) {
-            mobileMenu.firstElementChild.addEventListener('click', (event) => {
-                // Ensure the click is on the overlay itself, not its children (like the menu panel).
-                if (event.target === mobileMenu.firstElementChild) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
+        const overlay = mobileMenu.firstElementChild;
+        if (overlay) {
+            // Check if the overlay has the expected classes before adding the event listener
+            // This is what the original logic intended, now with optional chaining for safety.
+            if (overlay.classList?.contains('fixed', 'inset-0', 'bg-black')) {
+                overlay.addEventListener('click', (event) => {
+                    // Ensure the click is on the overlay itself, not its children (like the menu panel).
+                    if (event.target === overlay) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
         }
     }
 }

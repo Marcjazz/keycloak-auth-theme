@@ -20,7 +20,9 @@
       <div>
         <label for="firstName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
           ${kcSanitize(msg("firstName"))?no_esc} 
-          <#if properties.requireFirstName!"false" == "true"> <#-- This condition should ideally come from Keycloak's user profile config -->
+          <#-- New condition for displaying asterisk -->
+          <#assign firstNameAttr = (profile.attributes?filter(attr -> attr.name == "firstName")?first)!{}>
+          <#if firstNameAttr.required?? && firstNameAttr.required>
             <span class="text-red-500 dark:text-red-400">*</span>
           </#if>
         </label>
@@ -34,7 +36,8 @@
           autocomplete="given-name"
           aria-invalid="${messagesPerField.exists('firstName')?string('true','false')}"
           <#if messagesPerField.exists('firstName')>aria-describedby="firstName-error"</#if>
-          <#if properties.requireFirstName!"false" == "true">aria-required="true"</#if> 
+          <#-- New condition for aria-required. Using a slightly more direct check on the pre-assigned attribute -->
+          <#if firstNameAttr.required?? && firstNameAttr.required>aria-required="true"</#if>
         />
         <#if messagesPerField.exists('firstName')>
           <p id="firstName-error" class="mt-1.5 text-xs text-red-600 dark:text-red-400">${kcSanitize(messagesPerField.get('firstName'))?no_esc}</p>
@@ -47,7 +50,9 @@
       <div>
         <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
           ${kcSanitize(msg("lastName"))?no_esc}
-           <#if properties.requireLastName!"false" == "true"> <#-- This condition should ideally come from Keycloak's user profile config -->
+           <#-- New condition for displaying asterisk for lastName -->
+           <#assign lastNameAttr = (profile.attributes?filter(attr -> attr.name == "lastName")?first)!{}>
+           <#if lastNameAttr.required?? && lastNameAttr.required>
             <span class="text-red-500 dark:text-red-400">*</span>
           </#if>
         </label>
@@ -61,7 +66,8 @@
           autocomplete="family-name"
           aria-invalid="${messagesPerField.exists('lastName')?string('true','false')}"
           <#if messagesPerField.exists('lastName')>aria-describedby="lastName-error"</#if>
-          <#if properties.requireLastName!"false" == "true">aria-required="true"</#if>
+           <#-- New condition for aria-required for lastName -->
+          <#if lastNameAttr.required?? && lastNameAttr.required>aria-required="true"</#if>
         />
         <#if messagesPerField.exists('lastName')>
           <p id="lastName-error" class="mt-1.5 text-xs text-red-600 dark:text-red-400">${kcSanitize(messagesPerField.get('lastName'))?no_esc}</p>
