@@ -141,6 +141,7 @@
             ${kcSanitize(passwordPoliciesView)?no_esc}
           </div>
         </#if>
+        <div id="password-strength-feedback" class="mt-1 text-xs"></div> 
       </div>
 
       <#-- Password Confirmation -->

@@ -1,11 +1,29 @@
 {
   "compilerOptions": {
-    "outDir": "themes/login/resources/js",
-    "rootDir": "./src",
-    "target": "ES6",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true, 
     "strict": true,
-    "esModuleInterop": true
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    // rootDir can be kept if desired for source organization clarity,
+    // but it's not strictly necessary for compilation with noEmit: true.
+    // For consistency with Vite's typical project root focus, 
+    // and to avoid any old outDir confusion, we can omit rootDir here.
+    // Vite will resolve paths from the project root.
+    "baseUrl": ".", // Often useful for path aliases if any are used
+    "paths": { // Example for path aliases, can be empty if not used
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"] // Good practice to explicitly exclude node_modules
 }
