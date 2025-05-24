@@ -32,6 +32,19 @@ jobs:
       - name: Build theme
         run: yarn build
 
+      - name: Package theme for distribution
+        run: |
+          mkdir -p dist
+          zip -r dist/modern-theme.zip ./themes/modern-theme
+        working-directory: . # Ensure this is run from the repo root
+
+      - name: Upload theme artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: modern-theme-dist
+          path: dist/modern-theme.zip
+          retention-days: 90 # Optional: how long to keep the artifact
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
