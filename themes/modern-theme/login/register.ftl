@@ -24,7 +24,7 @@
                               </#if>
                         </label>
                         <input type="text" id="firstName" name="firstName" value="${(register.formData.firstName!'')}"
-                          placeholder="${kcSanitize(msg(" firstName"))?no_esc}"
+                          placeholder="${kcSanitize(msg("firstName"))?no_esc}"
                           class="w-full px-4 py-2.5 border <#if messagesPerField.exists('firstName')>border-red-500 dark:border-red-400<#else>border-gray-300 dark:border-gray-600</#if> rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-colors"
                           autocomplete="given-name"
                           aria-invalid="${messagesPerField.exists('firstName')?string('true','false')}" <#if
