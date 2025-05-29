@@ -5,7 +5,7 @@
         use "Register" -->
         <@layout.mainLayout
           title=msg("registerTitle") <#-- kcSanitize removed -->
-          header=(realm.displayNameHtml!(msg("registerTitle"))?no_esc) <#-- registrationHeader is already sanitized before this call -->
+          header=((realm.displayNameHtml!"") + " - " + (msg("registerTitle")!"")) <#-- registrationHeader is already sanitized before this call -->
             >
             <#-- Registration Form -->
               <form id="kc-register-form" action="${url.registrationAction}" method="post" class="space-y-5">

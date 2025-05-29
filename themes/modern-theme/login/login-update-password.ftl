@@ -2,7 +2,7 @@
     <#import "template.ftl" as layout>
 
       <@layout.mainLayout title=msg("updatePasswordTitle") <#-- kcSanitize removed -->
-        header=msg("updatePasswordTitle") <#-- kcSanitize removed -->
+        header=((realm.displayNameHtml!"") + " - " + (msg("updatePasswordTitle")!"")) <#-- registrationHeader is already sanitized before this call -->
           >
           <#-- Display username if available -->
             <#if (user?? && user.username??) || (auth?? && auth.attemptedUsername??)>
@@ -13,7 +13,7 @@
             </#if>
 
             <form id="kc-passwd-update-form" action="${url.loginAction}" method="post" class="space-y-5">
-              <#if kcSanitize(authSession.client.clientId)??>
+              <#if authSession?? && authSession.client?? && authSession.client.clientId??>
                 <input type="hidden" id="client_id" name="client_id"
                   value="${kcSanitize(authSession.client.clientId)}" />
                 <#elseif client.clientId??>
