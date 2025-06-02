@@ -51,7 +51,7 @@
   ],
   "users": [
     {
-      "email": "${KEYCLOAK_ADMIN}@hublots.co",
+      "email": "${KEYCLOAK_ADMIN}@kdmarc.xyz",
       "username": "${KEYCLOAK_ADMIN}",
       "firstName": "Marco",
       "lastName": "Kuidja",
